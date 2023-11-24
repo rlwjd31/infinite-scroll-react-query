@@ -1,18 +1,19 @@
-import { useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery } from "@tanstack/react-query";
 
 import "./App.css";
 import { fetchMovies } from "./api/fetchMovie";
 
 function App() {
-  const { data, error, status } = useQuery({
+  const { data, status, error, hasNextPage, fetchNextPage } = useInfiniteQuery({
     queryKey: ["movies"],
     queryFn: fetchMovies,
+    initialPageParam: 1,
+    getNextPageParam: () => 2,
   });
 
   if (status === "error") return <>{`fail to fetch data ${error.message}`}</>;
   if (status === "pending") return <>Loading...</>;
 
-  console.log("data", data);
   return (
     <>
       <h1>infinite scroll with react-query</h1>
