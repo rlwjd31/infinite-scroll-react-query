@@ -18,8 +18,8 @@ const Movie: FC<Props> = ({ movie }): JSX.Element => {
       <div className="movie-content">
         <p>{overview}</p>
         <div className="movie-vote">
-          <span>{vote_average}</span>
-          <span>{vote_count}</span>
+          <span>{`🩷 ${vote_average}`}</span>
+          <span>{`👍 ${vote_count}`}</span>
         </div>
       </div>
     </div>
