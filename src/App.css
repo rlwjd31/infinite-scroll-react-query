@@ -10,3 +10,12 @@
   justify-content: space-evenly;
   gap: 2rem;
 }
+
+.loading {
+  position: absolute;
+  font-size: 3rem;
+  top: 50%;
+  left: 50%;
+  transform: translateY(-50%);
+  transform: translateX(-50%);
+}

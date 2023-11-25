@@ -50,7 +50,7 @@ function App() {
   );
 
   if (status === "error") return <>{`fail to fetch data ${error.message}`}</>;
-  if (status === "pending") return <>Loading...</>;
+  if (status === "pending") return <div className="loading">Loading...</div>;
 
   // status === "success"일 때로 data가 있음을 보장.
   const movies = data?.pages.map((pageMovieData: TMovie[]) =>
