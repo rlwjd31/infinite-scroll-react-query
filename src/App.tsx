@@ -5,6 +5,7 @@ import "./App.css";
 import { fetchMovies } from "./api/fetchMovie";
 import { Movie as TMovie } from "./types/movie";
 import Movie from "./Movie";
+import ObserverTarget from "./ObserverTarget";
 
 const MAX_PAGE = 3;
 
@@ -58,14 +59,7 @@ function App() {
     <div className="margin-auto">
       <h1>infinite scroll with react-query</h1>
       <div className="container">{movies}</div>
-      <div
-        style={{ height: "200px", backgroundColor: "red", fontSize: "3rem" }}
-        ref={targetElement}
-      >
-        {isFetchingNextPage
-          ? "loading next page"
-          : "intersection with this area so fetch next page will be invoke!"}
-      </div>
+      <ObserverTarget targetRef={targetElement} isFetchingNextPage />
     </div>
   );
 }
