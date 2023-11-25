@@ -1,16 +1,12 @@
+.margin-auto {
+  margin: 0 auto;
+  max-width: 1400px;
+}
+
 .container {
   width: 100%;
   display: flex;
   flex-flow: row wrap;
   justify-content: space-evenly;
-  gap: 1rem;
-}
-
-.movie-card {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  min-width: 25rem;
-  
-  flex: 1 1 45%;
+  gap: 2rem;
 }

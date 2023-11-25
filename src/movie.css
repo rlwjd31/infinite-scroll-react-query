@@ -1,22 +1,14 @@
-.container {
-  width: 100%;
-  display: flex;
-  flex-flow: row wrap;
-  justify-content: space-evenly;
-  gap: 2rem;
-}
-
 .movie-card {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   /* border: 1px solid rgba(255, 255, 255, 0.8);
   border-radius: 5px; */
-  min-width: 25rem;
   padding: 1rem;
   box-shadow: 0 0.1rem 0.4rem rgba(255, 255, 255, 0.4);
   /* max-width: 40rem; */
-  flex: 1 1 45%;
+  min-width: 25rem;
+  flex: 1 1 26%;
 }
 
 .movie-content {
