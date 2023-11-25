@@ -8,7 +8,7 @@ import Movie from "./Movie";
 import ObserverTarget from "./ObserverTarget";
 import useIntersectionObserver from "./hooks/useIntersectionObserver";
 
-const MAX_PAGE = 3;
+const MAX_PAGE = 10;
 
 function App() {
   const { data, isLoading, status, error, fetchNextPage, isFetchingNextPage } =
