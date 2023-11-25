@@ -9,7 +9,7 @@ import { useEffect, useRef } from "react";
 const MAX_PAGE = 3;
 
 function App() {
-  const { data, status, error, fetchNextPage, isLoading } = useInfiniteQuery({
+  const { data, status, error, fetchNextPage, isFetching } = useInfiniteQuery({
     queryKey: ["movies"],
     queryFn: fetchMovies,
     initialPageParam: 1,
@@ -59,7 +59,7 @@ function App() {
         style={{ height: "200px", backgroundColor: "red", fontSize: "3rem" }}
         ref={targetElement}
       >
-        {isLoading
+        {isFetching
           ? "loading next page"
           : "intersection with this area so fetch next page will be invoke!"}
       </div>
