@@ -1,5 +1,5 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { useCallback, useEffect, useRef } from "react";
+import { RefObject, useCallback, useEffect, useRef } from "react";
 
 import "./App.css";
 import { fetchMovies } from "./api/fetchMovie";
@@ -9,7 +9,15 @@ import Movie from "./Movie";
 const MAX_PAGE = 3;
 
 function App() {
-  const { data, status, error, fetchNextPage, isFetching } = useInfiniteQuery({
+  const {
+    data,
+    isLoading,
+    status,
+    error,
+    fetchNextPage,
+    isFetchingNextPage,
+    hasNextPage,
+  } = useInfiniteQuery({
     queryKey: ["movies"],
     queryFn: fetchMovies,
     initialPageParam: 1,
@@ -18,17 +26,19 @@ function App() {
     },
   });
   const targetElement = useRef<HTMLDivElement>(null);
-  const observerCallback = (entries: IntersectionObserverEntry[]) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        console.log("target과 intersection 됨.");
-        fetchNextPage();
-      }
-    });
-  };
+  const observerCallback = useCallback(
+    (entries: IntersectionObserverEntry[]) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          console.log("target과 intersection 됨.");
+          fetchNextPage();
+        }
+      });
+    },
+    []
+  );
 
   useEffect(() => {
-    console.log("in useEffect current", targetElement.current);
     const observer = new IntersectionObserver(observerCallback, {
       root: null,
       rootMargin: "0px",
@@ -40,10 +50,8 @@ function App() {
     return () => {
       targetElement.current && observer.unobserve(targetElement.current);
     };
-  }, [observerCallback]);
+  }, [isLoading, observerCallback]);
 
-  console.log("app component rendered!!!");
-  console.log("ref", targetElement.current);
   if (status === "error") return <>{`fail to fetch data ${error.message}`}</>;
   if (status === "pending") return <>Loading...</>;
 
@@ -62,7 +70,7 @@ function App() {
         style={{ height: "200px", backgroundColor: "red", fontSize: "3rem" }}
         ref={targetElement}
       >
-        {isFetching
+        {isFetchingNextPage
           ? "loading next page"
           : "intersection with this area so fetch next page will be invoke!"}
       </div>
