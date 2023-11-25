@@ -1,5 +1,5 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { RefObject, useCallback, useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef } from "react";
 
 import "./App.css";
 import { fetchMovies } from "./api/fetchMovie";
@@ -9,33 +9,23 @@ import Movie from "./Movie";
 const MAX_PAGE = 3;
 
 function App() {
-  const {
-    data,
-    isLoading,
-    status,
-    error,
-    fetchNextPage,
-    isFetchingNextPage,
-    hasNextPage,
-  } = useInfiniteQuery({
-    queryKey: ["movies"],
-    queryFn: fetchMovies,
-    initialPageParam: 1,
-    getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => {
-      return lastPageParam + 1 > MAX_PAGE ? null : lastPageParam + 1;
-    },
-  });
+  const { data, isLoading, status, error, fetchNextPage, isFetchingNextPage } =
+    useInfiniteQuery({
+      queryKey: ["movies"],
+      queryFn: fetchMovies,
+      initialPageParam: 1,
+      getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => {
+        return lastPageParam + 1 > MAX_PAGE ? null : lastPageParam + 1;
+      },
+    });
   const targetElement = useRef<HTMLDivElement>(null);
   const observerCallback = useCallback(
     (entries: IntersectionObserverEntry[]) => {
       entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          console.log("target과 intersection 됨.");
-          fetchNextPage();
-        }
+        if (entry.isIntersecting) fetchNextPage();
       });
     },
-    []
+    [fetchNextPage]
   );
 
   useEffect(() => {
@@ -47,8 +37,10 @@ function App() {
 
     if (targetElement.current) observer.observe(targetElement.current);
 
+    const copyElement = targetElement;
+
     return () => {
-      targetElement.current && observer.unobserve(targetElement.current);
+      copyElement.current && observer.unobserve(copyElement.current);
     };
   }, [isLoading, observerCallback]);
 
