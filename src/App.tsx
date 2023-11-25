@@ -16,7 +16,13 @@ function App() {
       queryKey: ["movies"],
       queryFn: fetchMovies,
       initialPageParam: 1,
-      getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => {
+      getNextPageParam: (
+        _lastPage,
+        _allPages,
+        lastPageParam,
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        _allPageParams
+      ) => {
         return lastPageParam + 1 > MAX_PAGE ? null : lastPageParam + 1;
       },
     });
